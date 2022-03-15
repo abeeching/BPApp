@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Blood Pressure Monitor</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">First Prototype</string>
+    <string name="nav_header_subtitle">AdventHealth BPM for Telehealth</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Read Data</string>
+    <string name="menu_slideshow">View Data</string>
+    <string name="date_time_col">Date, Time</string>
+    <string name="systolic_col">Systolic</string>
+    <string name="diastolic_col">Diastolic</string>
+    <string name="placeholder">PLACEHOLDER (fill in later)</string>
+
+    <string name="test_button">Read Data</string>
+</resources>
