@@ -3,6 +3,7 @@ package com.example.bloodpressuremonitor.ui.gallery;
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +24,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.bloodpressuremonitor.R;
 import com.example.bloodpressuremonitor.databinding.FragmentGalleryBinding;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Set;
 
 public class GalleryFragment extends Fragment {
@@ -124,3 +127,4 @@ public class GalleryFragment extends Fragment {
         binding = null;
     }
 }
+
