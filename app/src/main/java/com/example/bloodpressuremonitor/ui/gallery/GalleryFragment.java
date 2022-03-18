@@ -3,6 +3,7 @@ package com.example.bloodpressuremonitor.ui.gallery;
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -24,13 +25,17 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.bloodpressuremonitor.R;
 import com.example.bloodpressuremonitor.databinding.FragmentGalleryBinding;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Set;
+import java.util.UUID;
 
 public class GalleryFragment extends Fragment {
 
     private FragmentGalleryBinding binding;
+    public BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+    View root = binding.getRoot();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -38,16 +43,17 @@ public class GalleryFragment extends Fragment {
                 new ViewModelProvider(this).get(GalleryViewModel.class);
 
         binding = FragmentGalleryBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+
 
         int REQUEST_ENABLE_BT = 0;
+
         Button buttonClick = (Button) root.findViewById(R.id.button);
         TextView tv = (TextView) root.findViewById(R.id.text_gallery);
 
         buttonClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
                 if (bluetoothAdapter == null) {
                     tv.setText("Bluetooth Not Supported");
                 }
@@ -109,7 +115,6 @@ public class GalleryFragment extends Fragment {
                 }
             };
 
-
             protected void onDestroy() {
                 // ???? not sure if I need to add anything else?
                 getActivity().unregisterReceiver(receiver);
@@ -126,5 +131,67 @@ public class GalleryFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+    private class AcceptThread extends Thread {
+        private BluetoothServerSocket mmServerSocket;
+
+        public AcceptThread() {
+            // Use a temporary object that is later assigned to mmServerSocket
+            // because mmServerSocket is final.
+            BluetoothServerSocket tmp = null;
+            try {
+                // MY_UUID is the app's UUID string, also used by the client code.
+                if (ActivityCompat.checkSelfPermission(root.getContext(), Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                tmp = bluetoothAdapter.listenUsingRfcommWithServiceRecord("BP_RECIPIENT", UUID.fromString("c357295a-c81f-44ba-9682-f22cf3f6aa83"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            mmServerSocket = tmp;
+        }
+
+        public void run() {
+            BluetoothSocket socket = null;
+            // Keep listening until exception occurs or a socket is returned.
+            while (true) {
+                try {
+                    socket = mmServerSocket.accept();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    break;
+                }
+
+                if (socket != null) {
+                    // A connection was accepted. Perform work associated with
+                    // the connection in a separate thread.
+                    // manageMyConnectedSocket(socket);
+                    try {
+                        mmServerSocket.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+            }
+        }
+
+        // Closes the connect socket and causes the thread to finish.
+        public void cancel() {
+            try {
+                mmServerSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }
 
