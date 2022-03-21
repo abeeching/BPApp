@@ -9,4 +9,16 @@
         <item>reply</item>
         <item>reply_all</item>
     </string-array>
+
+    <string-array name="day_timeframes">
+        <item>1 day</item>
+        <item>3 days</item>
+        <item>5 days</item>
+    </string-array>
+
+    <string-array name="day_timeframes_values">
+        <item>one_day</item>
+        <item>three_days</item>
+        <item>five_days</item>
+    </string-array>
 </resources>
