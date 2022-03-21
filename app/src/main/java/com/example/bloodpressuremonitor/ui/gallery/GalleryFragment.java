@@ -35,7 +35,7 @@ public class GalleryFragment extends Fragment {
 
     private FragmentGalleryBinding binding;
     public BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-    View root = binding.getRoot();
+    //public View root;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -43,21 +43,25 @@ public class GalleryFragment extends Fragment {
                 new ViewModelProvider(this).get(GalleryViewModel.class);
 
         binding = FragmentGalleryBinding.inflate(inflater, container, false);
-
+        View root = binding.getRoot();
 
         int REQUEST_ENABLE_BT = 0;
 
-        Button buttonClick = (Button) root.findViewById(R.id.button);
-        TextView tv = (TextView) root.findViewById(R.id.text_gallery);
+        Button buttonClick = (Button) root.findViewById(R.id.button3);
+        TextView tv = (TextView) root.findViewById(R.id.textView3);
 
         buttonClick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                // tv.setText("TEST"); - debug line, will be removed in next prototype
+
+                // Check for Bluetooth support
                 if (bluetoothAdapter == null) {
                     tv.setText("Bluetooth Not Supported");
                 }
 
+                // Check to see if the adapter is enabled
                 if (!bluetoothAdapter.isEnabled()) {
                     Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                     startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
@@ -75,6 +79,8 @@ public class GalleryFragment extends Fragment {
                     // for ActivityCompat#requestPermissions for more details.
                     return;
                 }
+
+                // listing off paired devices - not sure what to do with this
                 Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
 
                 if (pairedDevices.size() > 0) {
@@ -83,6 +89,8 @@ public class GalleryFragment extends Fragment {
                         String deviceHardwareAddress = device.getAddress();
                     }
                 }
+
+                tv.setText("Will be worked on");
             }
 
 
@@ -121,8 +129,8 @@ public class GalleryFragment extends Fragment {
             }
         });
 
-        final TextView textView = binding.textGallery;
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        // final TextView textView = binding.textGallery;
+        // galleryViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
@@ -141,7 +149,7 @@ public class GalleryFragment extends Fragment {
             BluetoothServerSocket tmp = null;
             try {
                 // MY_UUID is the app's UUID string, also used by the client code.
-                if (ActivityCompat.checkSelfPermission(root.getContext(), Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(GalleryFragment.this.getContext(), Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
                     // here to request the missing permissions, and then overriding
