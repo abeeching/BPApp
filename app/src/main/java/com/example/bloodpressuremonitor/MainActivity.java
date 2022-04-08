@@ -2,6 +2,7 @@ package com.example.bloodpressuremonitor;
 
 import static android.widget.Toast.LENGTH_LONG;
 
+import static androidx.core.content.FileProvider.getUriForFile;
 import static java.net.Proxy.Type.HTTP;
 
 import android.content.Intent;
@@ -52,11 +53,10 @@ public class MainActivity extends AppCompatActivity {
                 View root = binding.getRoot();
                 DBHandler bpdb = new DBHandler(root.getContext());
 
-                File file;
+                File file = new File(root.getContext().getFilesDir(), "BP_CSV.csv");
+                Uri contentUri = getUriForFile(root.getContext(), "com.example.bloodpressuremonitor.fileprovider", file);
                 PrintWriter printWriter = null;
                 try {
-                    file = new File(root.getContext().getFilesDir(), "BP_CSV.csv");
-                    file.createNewFile();
                     printWriter = new PrintWriter(new FileWriter(file));
                     SQLiteDatabase db = bpdb.getReadableDatabase();
 
@@ -81,12 +81,14 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 Intent emailIntent = new Intent(Intent.ACTION_SEND);
-                emailIntent.setType("text/html");
+                emailIntent.setType("message/rfc822");
                 // TODO - This is a test. We will need to allow the user to set the email. Maybe as a setting or something.
                 emailIntent.putExtra(Intent.EXTRA_EMAIL, "aidanbeeching@gmail.com");
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Blood Pressure Data");
                 emailIntent.putExtra(Intent.EXTRA_TEXT, "This is a CSV file containing the blood pressure data.");
-                emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(String.valueOf(root.getContext().getFilesDir())));
+                emailIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+                emailIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                emailIntent.setPackage("com.google.android.gm");
                 startActivity(emailIntent);
                 //startActivity(Intent.createChooser(emailIntent, "Send email..."));
                 }
