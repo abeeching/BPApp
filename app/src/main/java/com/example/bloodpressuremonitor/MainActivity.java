@@ -6,6 +6,7 @@ import static androidx.core.content.FileProvider.getUriForFile;
 import static java.net.Proxy.Type.HTTP;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -25,6 +26,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import com.example.bloodpressuremonitor.databinding.ActivityMainBinding;
 
@@ -80,10 +82,11 @@ public class MainActivity extends AppCompatActivity {
                     if(printWriter != null) printWriter.close();
                 }
 
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(root.getContext());
+                String address = sharedPreferences.getString("email", "");
                 Intent emailIntent = new Intent(Intent.ACTION_SEND);
                 emailIntent.setType("message/rfc822");
-                // TODO - This is a test. We will need to allow the user to set the email. Maybe as a setting or something.
-                emailIntent.putExtra(Intent.EXTRA_EMAIL, "aidanbeeching@gmail.com");
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {address}); // recipient
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Blood Pressure Data");
                 emailIntent.putExtra(Intent.EXTRA_TEXT, "This is a CSV file containing the blood pressure data.");
                 emailIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
