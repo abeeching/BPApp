@@ -1,4 +1,4 @@
-package com.example.bloodpressuremonitor.ui.gallery;
+package com.example.bloodpressuremonitor.ui.read_data;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
@@ -26,12 +26,10 @@ import com.example.bloodpressuremonitor.R;
 import com.example.bloodpressuremonitor.databinding.FragmentGalleryBinding;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.Set;
 import java.util.UUID;
 
-public class GalleryFragment extends Fragment {
+public class ReadDataFragment extends Fragment {
 
     private FragmentGalleryBinding binding;
     public BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -149,7 +147,7 @@ public class GalleryFragment extends Fragment {
             BluetoothServerSocket tmp = null;
             try {
                 // MY_UUID is the app's UUID string, also used by the client code.
-                if (ActivityCompat.checkSelfPermission(GalleryFragment.this.getContext(), Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(ReadDataFragment.this.getContext(), Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
                     // here to request the missing permissions, and then overriding

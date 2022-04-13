@@ -1,6 +1,5 @@
-package com.example.bloodpressuremonitor.ui.slideshow;
+package com.example.bloodpressuremonitor.ui.display_data;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -23,7 +22,7 @@ import com.example.bloodpressuremonitor.DBHandler;
 import com.example.bloodpressuremonitor.R;
 import com.example.bloodpressuremonitor.databinding.FragmentSlideshowBinding;
 
-public class SlideshowFragment extends Fragment {
+public class DisplayDataFragment extends Fragment {
 
     private FragmentSlideshowBinding binding;
 
