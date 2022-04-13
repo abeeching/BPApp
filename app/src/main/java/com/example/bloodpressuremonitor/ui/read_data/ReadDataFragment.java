@@ -33,7 +33,6 @@ public class ReadDataFragment extends Fragment {
 
     private FragmentGalleryBinding binding;
     public BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-    //public View root;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
