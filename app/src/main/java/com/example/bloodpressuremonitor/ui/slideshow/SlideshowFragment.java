@@ -1,4 +1,4 @@
-package com.example.bloodpressuremonitor.ui.display_data;
+package com.example.bloodpressuremonitor.ui.slideshow;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -22,7 +22,7 @@ import com.example.bloodpressuremonitor.DBHandler;
 import com.example.bloodpressuremonitor.R;
 import com.example.bloodpressuremonitor.databinding.FragmentSlideshowBinding;
 
-public class DisplayDataFragment extends Fragment {
+public class SlideshowFragment extends Fragment {
 
     private FragmentSlideshowBinding binding;
 
@@ -54,7 +54,8 @@ public class DisplayDataFragment extends Fragment {
                 InputStream myInputStream;
 
                 try {
-                    // get data from the sample_data text file
+                    // TODO - Remove the code for reading from a text file once we can confirm the Bluetooth component works.
+                    // Assuming the Bluetooth does work, all we should have to worry about is reading data from the database with dbHandler.
                     myInputStream = root.getContext().getAssets().open("sample_data.txt");
                     BufferedReader reader = new BufferedReader(new InputStreamReader(myInputStream));
                     String line;

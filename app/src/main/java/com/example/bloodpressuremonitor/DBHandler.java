@@ -50,6 +50,10 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(query);
     }
 
+    // TODO - Set up code to remove data from the table after a certain time period has passed.
+    // I imagine this can be done with some fancy SQL queries that selects data from a certain time period and then just removing their entries.
+    // This will require us to mess around with the settings.
+
     // adding new BP readings to the table:
     public void addBPData(String datetime, String systolic, String diastolic)
     {

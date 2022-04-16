@@ -1,4 +1,4 @@
-package com.example.bloodpressuremonitor.ui.display_data;
+package com.example.bloodpressuremonitor.ui.slideshow;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
