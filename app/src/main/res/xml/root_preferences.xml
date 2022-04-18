@@ -7,7 +7,7 @@
         android:entryValues="@array/day_timeframes_values"
         android:key="list_preference_1"
         android:title="Delete BP data older than"
-        android:defaultValue="1"/>
+        android:defaultValue="30"/>
     <PreferenceCategory android:title="Mail">
 
     </PreferenceCategory>

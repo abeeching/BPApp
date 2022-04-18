@@ -69,10 +69,11 @@ public class SlideshowFragment extends Fragment {
                     }
 
                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(root.getContext());
+                    ;
                     String days = sharedPreferences.getString("list_preference_1", "");
                     dbHandler.deleteOld(Integer.parseInt(days));
-
                     SQLiteDatabase db = dbHandler.getReadableDatabase();
+
                     Cursor bpCursor = db.rawQuery("SELECT * FROM bloodpressuredata", null);
 
                     if (bpCursor.moveToFirst()) {
