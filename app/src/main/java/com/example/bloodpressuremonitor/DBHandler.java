@@ -50,6 +50,13 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(query);
     }
 
+    // deleting old
+    public void deleteOld(int days) {
+        String sql = "DELETE FROM " + TABLE_NAME + " WHERE " + DATE_COL + " <= date('now','-" + days + " day')";
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(sql);
+    }
+
     // TODO - Set up code to remove data from the table after a certain time period has passed.
     // I imagine this can be done with some fancy SQL queries that selects data from a certain time period and then just removing their entries.
     // This will require us to mess around with the settings.

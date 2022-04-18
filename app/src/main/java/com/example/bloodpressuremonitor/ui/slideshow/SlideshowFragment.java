@@ -1,5 +1,6 @@
 package com.example.bloodpressuremonitor.ui.slideshow;
 
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -17,6 +18,7 @@ import java.io.*;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 
 import com.example.bloodpressuremonitor.DBHandler;
 import com.example.bloodpressuremonitor.R;
@@ -65,6 +67,10 @@ public class SlideshowFragment extends Fragment {
 
                         dbHandler.addBPData(values[0], values[1], values[2]);
                     }
+
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(root.getContext());
+                    String days = sharedPreferences.getString("list_preference_1", "");
+                    dbHandler.deleteOld(Integer.parseInt(days));
 
                     SQLiteDatabase db = dbHandler.getReadableDatabase();
                     Cursor bpCursor = db.rawQuery("SELECT * FROM bloodpressuredata", null);
@@ -127,6 +133,7 @@ public class SlideshowFragment extends Fragment {
                     }
             } catch (Exception e) {
                     tv.setText("You should not see this.");
+                    //e.printStackTrace();
                 }
         }
 
