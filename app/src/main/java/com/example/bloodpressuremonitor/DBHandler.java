@@ -14,7 +14,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "bloodpressuredb";
 
     // database version
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 7;
 
     // table name
     private static final String TABLE_NAME = "bloodpressuredata";
@@ -77,4 +77,5 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
+
 }
