@@ -68,10 +68,9 @@ public class SlideshowFragment extends Fragment {
                         dbHandler.addBPData(values[0], values[1], values[2]);
                     }
 
-                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(root.getContext());
-                    ;
-                    String days = sharedPreferences.getString("list_preference_1", "");
-                    dbHandler.deleteOld(Integer.parseInt(days));
+                    //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(root.getContext());
+                    //String days = sharedPreferences.getString("list_preference_1", "");
+                    //dbHandler.deleteOld(Integer.parseInt(days));
                     SQLiteDatabase db = dbHandler.getReadableDatabase();
 
                     Cursor bpCursor = db.rawQuery("SELECT * FROM bloodpressuredata", null);
@@ -79,7 +78,7 @@ public class SlideshowFragment extends Fragment {
                     if (bpCursor.moveToFirst()) {
                         do {
                             // logic to determine if a particular reading is severe or not
-                            if ((Integer.parseInt(bpCursor.getString(2)) >= 160 || Integer.parseInt(bpCursor.getString(3)) >= 110)) {
+                            if ((Double.parseDouble(bpCursor.getString(2)) >= 160 || Double.parseDouble(bpCursor.getString(3)) >= 110)) {
                                 isSevere = true;
                             } else {
                                 isSevere = false;
@@ -132,15 +131,15 @@ public class SlideshowFragment extends Fragment {
                         bpCursor.close();
                         myInputStream.close();
                     }
-            } catch (Exception e) {
+                } catch (Exception e) {
                     tv.setText("You should not see this.");
                     //e.printStackTrace();
                 }
-        }
+            }
 
 
-    });
-    return root;
+        });
+        return root;
     }
 
     @Override

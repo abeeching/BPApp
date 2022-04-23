@@ -14,7 +14,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String DB_NAME = "bloodpressuredb";
 
     // database version
-    private static final int DB_VERSION = 7;
+    private static final int DB_VERSION = 15;
 
     // table name
     private static final String TABLE_NAME = "bloodpressuredata";

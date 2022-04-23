@@ -29,6 +29,10 @@ import com.example.bloodpressuremonitor.databinding.FragmentGalleryBinding;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
@@ -251,15 +255,22 @@ public class GalleryFragment extends Fragment {
             int begin = (int)msg.arg1;
             int end = (int)msg.arg2;
 
-            switch (msg.what) {
-                case 1:
-                    String writeMessage = new String(writeBuf);
-                    writeMessage = writeMessage.substring(begin, end);
-                    System.out.println(writeMessage);
-                    String values[] = writeMessage.split(",");
-                    dbHandler = new DBHandler(binding.getRoot().getContext());
-                    dbHandler.addBPData(values[0], values[1], values[2]);
-                    break;
+            try {
+                switch (msg.what) {
+                    case 1:
+                        Calendar calendar = Calendar.getInstance();
+                        DateFormat df = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                        String strDate = df.format(calendar.getTime());
+                        String writeMessage = new String(writeBuf);
+                        writeMessage = writeMessage.substring(begin, end);
+                        System.out.println(writeMessage);
+                        String values[] = writeMessage.split(",");
+                        dbHandler = new DBHandler(binding.getRoot().getContext());
+                        dbHandler.addBPData("04-18-2022 3:30", values[0], values[1]);
+                        break;
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                e.printStackTrace();
             }
         }
     };
