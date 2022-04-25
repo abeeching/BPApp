@@ -1,6 +1,5 @@
 package com.example.bloodpressuremonitor.ui.slideshow;
 
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -13,16 +12,16 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import java.io.*;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.preference.PreferenceManager;
 
 import com.example.bloodpressuremonitor.DBHandler;
 import com.example.bloodpressuremonitor.R;
 import com.example.bloodpressuremonitor.databinding.FragmentSlideshowBinding;
+
+import java.io.InputStream;
 
 public class SlideshowFragment extends Fragment {
 
@@ -56,18 +55,6 @@ public class SlideshowFragment extends Fragment {
                 InputStream myInputStream;
 
                 try {
-                    // TODO - Remove the code for reading from a text file once we can confirm the Bluetooth component works.
-                    // Assuming the Bluetooth does work, all we should have to worry about is reading data from the database with dbHandler.
-                    myInputStream = root.getContext().getAssets().open("sample_data.txt");
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(myInputStream));
-                    String line;
-
-                    while ((line = reader.readLine()) != null) {
-                        String[] values = line.split(",");
-
-                        dbHandler.addBPData(values[0], values[1], values[2]);
-                    }
-
                     //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(root.getContext());
                     //String days = sharedPreferences.getString("list_preference_1", "");
                     //dbHandler.deleteOld(Integer.parseInt(days));
@@ -127,12 +114,10 @@ public class SlideshowFragment extends Fragment {
 
                         // mainly here for debugging, will likely not be in the final product
                         // checks to make sure the button even works, or if something went wrong in the file-reading process
-                        tv.setText("should be good to go");
                         bpCursor.close();
-                        myInputStream.close();
                     }
                 } catch (Exception e) {
-                    tv.setText("You should not see this.");
+                    tv.setText(R.string.generic_db_error);
                     //e.printStackTrace();
                 }
             }

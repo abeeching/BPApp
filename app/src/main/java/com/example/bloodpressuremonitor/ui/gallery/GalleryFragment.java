@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -65,7 +66,7 @@ public class GalleryFragment extends Fragment {
 
                 // Check for Bluetooth support
                 if (bluetoothAdapter == null) {
-                    tv.setText("Bluetooth Not Supported");
+                    tv.setText(R.string.unsupported_bt_error);
                 }
 
                 // Check to see if the adapter is enabled
@@ -219,6 +220,8 @@ public class GalleryFragment extends Fragment {
                                 bytes = 0;
                                 begin = 0;
                             }
+                            Toast.makeText(getContext(), "Data received. Connection closing.", Toast.LENGTH_LONG).show();
+                            this.cancel();
                         }
                     }
                 } catch (IOException e) {
@@ -239,7 +242,9 @@ public class GalleryFragment extends Fragment {
 
         public void cancel() {
             try {
-                outStream.write("0".getBytes());
+                outStream.flush();
+                outStream.close();
+                inStream.close();
                 btSocket.close();
             } catch (IOException e) {
                 System.out.print("Exception in ConnectedThread cancel()");

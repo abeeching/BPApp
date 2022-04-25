@@ -2,7 +2,7 @@
     <string name="app_name">Blood Pressure Monitor</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">First Prototype</string>
+    <string name="nav_header_title">Blood Pressure Monitor</string>
     <string name="nav_header_subtitle">AdventHealth BPM for Telehealth</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
@@ -14,10 +14,12 @@
     <string name="systolic_col">Systolic</string>
     <string name="diastolic_col">Diastolic</string>
     <string name="placeholder">PLACEHOLDER (fill in later)</string>
+    <string name="generic_db_error">An error has occurred loading the database.</string>
+    <string name="unsupported_bt_error">Bluetooth not supported.</string>
 
     <string name="test_button">Read Data</string>
     <string name="get_button">Tap Here to Get Data from Device</string>
-    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_settings">Settings</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
