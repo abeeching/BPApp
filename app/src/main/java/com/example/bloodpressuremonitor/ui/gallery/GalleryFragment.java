@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +56,8 @@ public class GalleryFragment extends Fragment {
         binding = FragmentGalleryBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+
+
         Button buttonClick = (Button) root.findViewById(R.id.button3);
         TextView tv = (TextView) root.findViewById(R.id.textView3);
 
@@ -95,7 +98,7 @@ public class GalleryFragment extends Fragment {
 
                 if (pairedDevices.size() > 0) {
                     for (BluetoothDevice device : pairedDevices) {
-                        tv.append(device.getName() + "\n");
+                        // tv.append(device.getName() + "\n");
                         if (deviceName.equals(device.getName())) {
                             deviceAddr = device.getAddress();
                         }
@@ -106,7 +109,7 @@ public class GalleryFragment extends Fragment {
 
                 ConnectThread btConnectThread = new ConnectThread(hc05);
                 btConnectThread.start();
-                tv.append("If no exceptions were generated\ncheck the View Data tab.");
+                tv.append("Getting data...\nPlease wait for a notification below\nbefore viewing your data.");
                 // btConnectThread.cancel();
             }
 
@@ -135,7 +138,13 @@ public class GalleryFragment extends Fragment {
                 }
                 temp = btDevice.createInsecureRfcommSocketToServiceRecord(myUUID);
             } catch (Exception e) {
-                System.out.print("Exception when creating ConnectThread\n");
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast toast = Toast.makeText(GalleryFragment.this.binding.getRoot().getContext(), "ERROR: Could not create a socket.", Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                });
                 e.printStackTrace();
             }
             btSocket = temp;
@@ -157,11 +166,23 @@ public class GalleryFragment extends Fragment {
                 btSocket.connect();
             } catch (IOException connectException) {
                 try {
-                    System.out.print("connectException caught\n");
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast toast = Toast.makeText(GalleryFragment.this.binding.getRoot().getContext(), "ERROR: Could not connect to device.", Toast.LENGTH_LONG);
+                            toast.show();
+                        }
+                    });
                     connectException.printStackTrace();
                     btSocket.close();
                 } catch (IOException closeException) {
-                    System.out.print("closeException caught\n");
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast toast = Toast.makeText(GalleryFragment.this.getContext(), "ERROR: Could not close Bluetooth connection.", Toast.LENGTH_LONG);
+                            toast.show();
+                        }
+                    });
                     closeException.printStackTrace();
                 }
                 return;
@@ -197,7 +218,13 @@ public class GalleryFragment extends Fragment {
                 tempOut = socket.getOutputStream();
             } catch (IOException e) {
                 e.printStackTrace();
-                System.out.println("Exception when creating ConnectedThread");
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast toast = Toast.makeText(GalleryFragment.this.binding.getRoot().getContext(), "ERROR: Could not initiate connection.", Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                });
             }
 
             inStream = tempIn;
@@ -220,12 +247,24 @@ public class GalleryFragment extends Fragment {
                                 bytes = 0;
                                 begin = 0;
                             }
-                            Toast.makeText(getContext(), "Data received. Connection closing.", Toast.LENGTH_LONG).show();
+                            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast toast = Toast.makeText(GalleryFragment.this.binding.getRoot().getContext(), "Received data. Closing connection.", Toast.LENGTH_LONG);
+                                    toast.show();
+                                }
+                            });
                             this.cancel();
                         }
                     }
                 } catch (IOException e) {
-                    System.out.print("Exception in ConnectedThread run()\n");
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast toast = Toast.makeText(GalleryFragment.this.binding.getRoot().getContext(), "ERROR: Could not receive data.", Toast.LENGTH_LONG);
+                            toast.show();
+                        }
+                    });
                     break;
                 }
             }
@@ -235,7 +274,13 @@ public class GalleryFragment extends Fragment {
             try {
                 outStream.write(bytes);
             } catch (IOException e) {
-                System.out.print("Exception in ConnectedThread write()\n");
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast toast = Toast.makeText(GalleryFragment.this.binding.getRoot().getContext(), "ERROR: Could not write to Bluetooth.", Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                });
                 e.printStackTrace();
             }
         }
@@ -247,7 +292,13 @@ public class GalleryFragment extends Fragment {
                 inStream.close();
                 btSocket.close();
             } catch (IOException e) {
-                System.out.print("Exception in ConnectedThread cancel()");
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast toast = Toast.makeText(GalleryFragment.this.binding.getRoot().getContext(), "ERROR: Could not close connection.", Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                });
                 e.printStackTrace();
             }
         }
@@ -271,10 +322,10 @@ public class GalleryFragment extends Fragment {
                         System.out.println(writeMessage);
                         String values[] = writeMessage.split(",");
                         dbHandler = new DBHandler(binding.getRoot().getContext());
-                        dbHandler.addBPData("04-18-2022 3:30", values[0], values[1]);
+                        dbHandler.addBPData(strDate, values[0], values[1]);
                         break;
                 }
-            } catch (ArrayIndexOutOfBoundsException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
