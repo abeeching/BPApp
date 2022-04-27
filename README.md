@@ -2,7 +2,7 @@
 Android app code for Blood Pressure Monitor - SP2022 Capstone Project in collaboration with AdventHealth
 
 ## Notes - 4/26/2022
-UI changes made to make app user friendly. Used colors from original AdventHealth logo to create aesthetic views that intrigue users. Tested read data view to double check any possible issues that could come up.
+UI changes made to make app user friendly. Used colors from original AdventHealth logo to create aesthetic views that intrigue users. Tested read data view to double check any possible issues that could come up. The app is pretty much completed at this point.
 
 ## Notes - 4/16/2022
 Just had to update filenames, since when I changed them stuff seemed to break within Android Studio. I have updated this information in the 4/13 notes. Apologies for any inconvenience.
