@@ -3,11 +3,11 @@
 
     <PreferenceCategory app:title="Data Management" />
     <ListPreference
+        android:defaultValue="30"
         android:entries="@array/day_timeframes"
         android:entryValues="@array/day_timeframes_values"
         android:key="list_preference_1"
-        android:title="Delete BP data older than"
-        android:defaultValue="30"/>
+        android:title="Delete BP data older than" />
     <PreferenceCategory android:title="Mail">
 
     </PreferenceCategory>
@@ -16,6 +16,7 @@
         android:key="email"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:title="Set email address to send data to" />
+        android:title="Set email address to send data to"
+        app:allowDividerBelow="false" />
 
 </PreferenceScreen>

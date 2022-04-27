@@ -1,5 +1,6 @@
 package com.example.bloodpressuremonitor.ui.slideshow;
 
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -16,12 +17,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 
 import com.example.bloodpressuremonitor.DBHandler;
 import com.example.bloodpressuremonitor.R;
 import com.example.bloodpressuremonitor.databinding.FragmentSlideshowBinding;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class SlideshowFragment extends Fragment {
 
@@ -38,7 +42,6 @@ public class SlideshowFragment extends Fragment {
         // define button, text view, and table layouts from the screen
 
         Button buttonClick = (Button)root.findViewById(R.id.button);
-        TextView tv = (TextView)root.findViewById(R.id.textView2);
         TableLayout tl = (TableLayout)root.findViewById(R.id.tableLayout);
 
         // Define database
@@ -50,14 +53,25 @@ public class SlideshowFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 boolean isSevere = false; // variable that is set to true if SBP or DBP exceed recommended values
-                tv.setText("");
                 String myOutput;
                 InputStream myInputStream;
 
                 try {
-                    //SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(root.getContext());
-                    //String days = sharedPreferences.getString("list_preference_1", "");
-                    //dbHandler.deleteOld(Integer.parseInt(days));
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(root.getContext());
+                    String days = sharedPreferences.getString("list_preference_1", "");
+                    dbHandler.deleteOld(Integer.parseInt(days));
+
+                    /*
+                    myInputStream = root.getContext().getAssets().open("sample_data.txt");
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(myInputStream));
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        String[] values = line.split(",");
+
+                        dbHandler.addBPData(values[0], values[1], values[2]);
+                    }
+                    */
                     SQLiteDatabase db = dbHandler.getReadableDatabase();
 
                     Cursor bpCursor = db.rawQuery("SELECT * FROM bloodpressuredata", null);
@@ -117,8 +131,7 @@ public class SlideshowFragment extends Fragment {
                         bpCursor.close();
                     }
                 } catch (Exception e) {
-                    tv.setText(R.string.generic_db_error);
-                    //e.printStackTrace();
+                   e.printStackTrace();
                 }
             }
 
