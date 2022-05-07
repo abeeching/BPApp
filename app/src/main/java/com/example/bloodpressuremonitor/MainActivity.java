@@ -1,9 +1,6 @@
 package com.example.bloodpressuremonitor;
 
-import static android.widget.Toast.LENGTH_LONG;
-
 import static androidx.core.content.FileProvider.getUriForFile;
-import static java.net.Proxy.Type.HTTP;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,25 +8,20 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Menu;
-import android.widget.Toast;
 
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.navigation.NavigationView;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
 import com.example.bloodpressuremonitor.databinding.ActivityMainBinding;
+import com.google.android.material.navigation.NavigationView;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -40,8 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
 
-    Toast toast;
-    Thread thread;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
                     db.close();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Snackbar errSnackbar = Snackbar.make(view, "Something Went Wrong", BaseTransientBottomBar.LENGTH_LONG);
                 } finally {
                     if(printWriter != null) printWriter.close();
                 }

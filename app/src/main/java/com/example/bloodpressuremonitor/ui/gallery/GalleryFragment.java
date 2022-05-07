@@ -31,10 +31,9 @@ import com.example.bloodpressuremonitor.databinding.FragmentGalleryBinding;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.Locale;
 import java.util.Set;
 import java.util.UUID;
 
@@ -58,8 +57,8 @@ public class GalleryFragment extends Fragment {
 
 
 
-        Button buttonClick = (Button) root.findViewById(R.id.button3);
-        TextView tv = (TextView) root.findViewById(R.id.textView3);
+        Button buttonClick = root.findViewById(R.id.button3);
+        TextView tv = root.findViewById(R.id.textView3);
 
         buttonClick.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +78,7 @@ public class GalleryFragment extends Fragment {
                 }
 
 
-                // listing off paired devices - not sure what to do with this
+
                 if (ActivityCompat.checkSelfPermission(root.getContext(), Manifest.permission.BLUETOOTH_CONNECT) != PERMISSION_GRANTED) {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
@@ -315,7 +314,7 @@ public class GalleryFragment extends Fragment {
                 switch (msg.what) {
                     case 1:
                         Calendar calendar = Calendar.getInstance();
-                        DateFormat df = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss", Locale.US);
                         String strDate = df.format(calendar.getTime());
                         String writeMessage = new String(writeBuf);
                         writeMessage = writeMessage.substring(begin, end);
