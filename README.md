@@ -1,6 +1,9 @@
 # BPApp
 Android app code for Blood Pressure Monitor - SP2022 Capstone Project in collaboration with AdventHealth
 
+## Notes - 5/6/2022
+Final release of app. Not on Android Play Store because of some permissions-related issues. Fixed date-time problems.
+
 ## Notes - 4/26/2022
 UI changes made to make app user friendly. Used colors from original AdventHealth logo to create aesthetic views that intrigue users. Tested read data view to double check any possible issues that could come up. The app is pretty much completed at this point.
 
